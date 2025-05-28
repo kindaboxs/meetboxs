@@ -6,13 +6,13 @@ import { usePathname, useRouter } from "next/navigation";
 import { BotIcon, StarIcon, VideoIcon } from "lucide-react";
 
 import { BoxsIcon } from "@/components/icons/boxs-icon";
-import { Separator } from "@/components/ui/separator";
 import {
 	Sidebar,
 	SidebarContent,
 	SidebarFooter,
 	SidebarGroup,
 	SidebarGroupContent,
+	SidebarGroupLabel,
 	SidebarHeader,
 	SidebarMenu,
 	SidebarMenuButton,
@@ -73,8 +73,8 @@ export const DashboardSidebar = () => {
 							asChild
 						>
 							<Link href="/">
-								<div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-transparent">
-									<BoxsIcon className="size-8" />
+								<div className="flex aspect-square size-7 items-center justify-center rounded-lg bg-transparent">
+									<BoxsIcon className="size-7" />
 								</div>
 								<span className="text-2xl font-bold">MeetBoxs</span>
 							</Link>
@@ -82,12 +82,10 @@ export const DashboardSidebar = () => {
 					</SidebarMenuItem>
 				</SidebarMenu>
 			</SidebarHeader>
-			<div className="px-4 py-2">
-				<Separator />
-			</div>
 			<SidebarContent>
-				<SidebarGroup>
-					<SidebarGroupContent>
+				<SidebarGroup className="group-data-[collapsible=icon]:hidden">
+					<SidebarGroupLabel>Applications</SidebarGroupLabel>
+					<SidebarGroupContent className="flex flex-col gap-2">
 						<SidebarMenu>
 							{firstSection.map((item, index) => (
 								<SidebarMenuItem key={index}>
