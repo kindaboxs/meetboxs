@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { OctagonAlertIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
+import { FaGithub, FaGoogle } from "react-icons/fa";
 import { z } from "zod";
 
 import { BoxsIcon } from "@/components/icons/boxs-icon";
@@ -35,6 +36,9 @@ type formSchemaType = z.infer<typeof formSchema>;
 
 export const SignInView = () => {
 	const [pending, setPending] = useState<boolean>(false);
+	const [providerPending, setProviderPending] = useState<
+		"google" | "github" | null
+	>(null);
 	const [error, setError] = useState<string | null>(null);
 
 	const router = useRouter();
@@ -66,6 +70,29 @@ export const SignInView = () => {
 				onError: (ctx) => {
 					setPending(false);
 					setError(ctx.error.message);
+				},
+			}
+		);
+	};
+
+	const onSocialSignIn = async (provider: "github" | "google") => {
+		await authClient.signIn.social(
+			{
+				provider: provider,
+				callbackURL: "/",
+			},
+			{
+				onRequest: () => {
+					setError(null);
+					setProviderPending(provider);
+				},
+				onSuccess: () => {
+					setError(null);
+					setProviderPending(null);
+				},
+				onError: (ctx) => {
+					setError(ctx.error.message);
+					setProviderPending(null);
 				},
 			}
 		);
@@ -143,15 +170,24 @@ export const SignInView = () => {
 										or continue with
 									</span>
 								</div>
-								<div className="grid grid-cols-3 gap-4">
-									<Button variant="outline" type="button" className="w-full">
-										GitHub
+								<div className="grid grid-cols-2 gap-4">
+									<Button
+										variant="outline"
+										type="button"
+										className="w-full"
+										onClick={() => onSocialSignIn("github")}
+										disabled={providerPending === "github"}
+									>
+										<FaGithub />
 									</Button>
-									<Button variant="outline" type="button" className="w-full">
-										Google
-									</Button>
-									<Button variant="outline" type="button" className="w-full">
-										Discord
+									<Button
+										variant="outline"
+										type="button"
+										className="w-full"
+										onClick={() => onSocialSignIn("google")}
+										disabled={providerPending === "google"}
+									>
+										<FaGoogle />
 									</Button>
 								</div>
 								<p className="text-center text-sm">
