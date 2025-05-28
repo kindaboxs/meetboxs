@@ -16,6 +16,7 @@ import {
 	CommandInput,
 	CommandItem,
 	CommandList,
+	CommandResponsiveDialog,
 	CommandSeparator,
 	CommandShortcut,
 } from "@/components/ui/command";
@@ -27,7 +28,7 @@ interface DashboardCommandProps {
 
 export const DashboardCommand = ({ open, setOpen }: DashboardCommandProps) => {
 	return (
-		<CommandDialog open={open} onOpenChange={setOpen}>
+		<CommandResponsiveDialog open={open} onOpenChange={setOpen}>
 			<CommandInput placeholder="Search" />
 			<CommandList>
 				<CommandEmpty>No results found.</CommandEmpty>
@@ -64,6 +65,6 @@ export const DashboardCommand = ({ open, setOpen }: DashboardCommandProps) => {
 					</CommandItem>
 				</CommandGroup>
 			</CommandList>
-		</CommandDialog>
+		</CommandResponsiveDialog>
 	);
 };
