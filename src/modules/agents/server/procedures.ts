@@ -15,11 +15,11 @@ export const agentsRouter = createTRPCRouter({
 
 	getOne: protectedProcedure
 		.input(z.object({ id: z.string() }))
-		.query(async () => {
+		.query(async ({ input }) => {
 			const [existingAgent] = await db
 				.select()
 				.from(agents)
-				.where(eq(agents.id, "id"));
+				.where(eq(agents.id, input.id));
 
 			return existingAgent;
 		}),

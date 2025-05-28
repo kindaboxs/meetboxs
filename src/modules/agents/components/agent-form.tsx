@@ -102,7 +102,7 @@ export const AgentForm = ({
 					name="instructions"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Name</FormLabel>
+							<FormLabel>Instructions</FormLabel>
 							<FormControl>
 								<Textarea
 									{...field}
