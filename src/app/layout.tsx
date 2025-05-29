@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 
 import "@/styles/globals.css";
 
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { Toaster } from "sonner";
 
 import { TRPCReactProvider } from "@/trpc/client";
@@ -34,7 +35,9 @@ export default function RootLayout({
 			suppressHydrationWarning
 		>
 			<body>
-				<TRPCReactProvider>{children}</TRPCReactProvider>
+				<NuqsAdapter>
+					<TRPCReactProvider>{children}</TRPCReactProvider>
+				</NuqsAdapter>
 				<Toaster position="top-center" richColors />
 			</body>
 		</html>
