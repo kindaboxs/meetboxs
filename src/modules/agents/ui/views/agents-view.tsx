@@ -16,12 +16,13 @@ export const AgentsView = () => {
 
 	return (
 		<div className="flex flex-1 flex-col gap-y-4 px-4 pb-4 md:px-8">
-			<DataTable data={data} columns={columns} />
-			{data.length === 0 && (
+			{data.length === 0 ? (
 				<EmptyState
 					title="Create Your First Agent"
 					description="Create an agent to join your meetings, Each agent will follow your instructions and can interact with participants during the call."
 				/>
+			) : (
+				<DataTable data={data} columns={columns} />
 			)}
 		</div>
 	);
