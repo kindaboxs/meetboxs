@@ -10,7 +10,10 @@ import {
 } from "@/constants";
 import { db } from "@/db";
 import { agents } from "@/db/schema";
-import { agentsInsertSchema } from "@/modules/agents/schemas";
+import {
+	agentsInsertSchema,
+	agentsUpdateSchema,
+} from "@/modules/agents/schemas";
 import { createTRPCRouter, protectedProcedure } from "@/trpc/init";
 
 const getManyInputSchema = z.object({
@@ -66,7 +69,7 @@ export const agentsRouter = createTRPCRouter({
 		}),
 
 	getOne: protectedProcedure
-		.input(z.object({ id: z.string({ coerce: true }) }))
+		.input(z.object({ id: z.string() }))
 		.query(async ({ input, ctx }) => {
 			const [existingAgent] = await db
 				.select({
@@ -101,5 +104,46 @@ export const agentsRouter = createTRPCRouter({
 				.returning();
 
 			return createdAgent;
+		}),
+
+	remove: protectedProcedure
+		.input(z.object({ id: z.string() }))
+		.mutation(async ({ ctx, input }) => {
+			const [removedAgent] = await db
+				.delete(agents)
+				.where(
+					and(eq(agents.id, input.id), eq(agents.userId, ctx.auth.user.id))
+				)
+				.returning();
+
+			if (!removedAgent) {
+				throw new TRPCError({
+					code: "NOT_FOUND",
+					message: "Agent not found",
+				});
+			}
+
+			return removedAgent;
+		}),
+
+	update: protectedProcedure
+		.input(agentsUpdateSchema)
+		.mutation(async ({ ctx, input }) => {
+			const { id, ...updateData } = input;
+
+			const [updatedAgent] = await db
+				.update(agents)
+				.set(updateData)
+				.where(and(eq(agents.id, id), eq(agents.userId, ctx.auth.user.id)))
+				.returning();
+
+			if (!updatedAgent) {
+				throw new TRPCError({
+					code: "NOT_FOUND",
+					message: "Agent not found",
+				});
+			}
+
+			return updatedAgent;
 		}),
 });
