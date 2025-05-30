@@ -57,7 +57,7 @@ export const AgentIdView = ({ agentId }: AgentIdViewProps) => {
 
 	const [RemoveConfirmation, confirmRemove] = useConfirm(
 		"Are you sure?",
-		`The following agent will be removed: ${data.meetingCount} associated meetings.`
+		`This agent will be permanently removed along with ${data.meetingCount} associated ${data.meetingCount === 1 ? "meeting" : "meetings"}.`
 	);
 
 	const handleRemoveAgent = async () => {
