@@ -15,14 +15,14 @@ import {
 import { getQueryClient, trpc } from "@/trpc/server";
 
 export default async function MeetingsPage() {
-	const queryClient = getQueryClient();
-	void queryClient.prefetchQuery(trpc.meetings.getMany.queryOptions({}));
-
 	const session = await auth.api.getSession({
 		headers: await headers(),
 	});
 
 	if (!session) redirect("/sign-in");
+
+	const queryClient = getQueryClient();
+	void queryClient.prefetchQuery(trpc.meetings.getMany.queryOptions({}));
 
 	return (
 		<>

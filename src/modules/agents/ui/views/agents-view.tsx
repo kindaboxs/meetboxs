@@ -4,12 +4,12 @@ import { useRouter } from "next/navigation";
 
 import { useSuspenseQuery } from "@tanstack/react-query";
 
+import { DataTable } from "@/components/data-table";
 import { EmptyState } from "@/components/empty-state";
 import { ErrorState } from "@/components/error-state";
 import { LoadingState } from "@/components/loading-state";
 import { columns } from "@/modules/agents/components/columns";
 import { DataPagination } from "@/modules/agents/components/data-pagination";
-import { DataTable } from "@/modules/agents/components/data-table";
 import { useAgentsFilters } from "@/modules/agents/hooks/use-agents-filters";
 import { useTRPC } from "@/trpc/client";
 
