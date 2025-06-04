@@ -63,9 +63,8 @@ export const verification = pgTable("verification", {
 
 export const agents = pgTable("agents", {
 	id: text("id")
-		.notNull()
 		.primaryKey()
-		.$default(() => nanoid()),
+		.$defaultFn(() => nanoid()),
 	name: text("name").notNull(),
 	userId: text("user_id")
 		.notNull()
@@ -87,9 +86,8 @@ export const meetingStatus = pgEnum("meeting_status", [
 
 export const meetings = pgTable("meetings", {
 	id: text("id")
-		.notNull()
 		.primaryKey()
-		.$default(() => nanoid()),
+		.$defaultFn(() => nanoid()),
 	name: text("name").notNull(),
 	userId: text("user_id")
 		.notNull()

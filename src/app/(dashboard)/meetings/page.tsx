@@ -14,8 +14,8 @@ import {
 import { getQueryClient, trpc } from "@/trpc/server";
 
 export default async function MeetingsPage() {
-	const qureryClient = getQueryClient();
-	void qureryClient.prefetchQuery(trpc.meetings.getMany.queryOptions({}));
+	const queryClient = getQueryClient();
+	void queryClient.prefetchQuery(trpc.meetings.getMany.queryOptions({}));
 
 	const session = await auth.api.getSession({
 		headers: await headers(),
@@ -24,7 +24,7 @@ export default async function MeetingsPage() {
 	if (!session) redirect("/sign-in");
 
 	return (
-		<HydrationBoundary state={dehydrate(qureryClient)}>
+		<HydrationBoundary state={dehydrate(queryClient)}>
 			<Suspense fallback={<MeetingsViewLoading />}>
 				<ErrorBoundary fallback={<MeetingsViewError />}>
 					<MeetingsView />
